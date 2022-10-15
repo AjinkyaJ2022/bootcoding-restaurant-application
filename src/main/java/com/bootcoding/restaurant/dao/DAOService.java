@@ -5,9 +5,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class DAOServices {
+public class DAOService {
     public static void main(String[] args) {
-        DAOServices d1=new DAOServices();
+        DAOService d1=new DAOService();
         d1.getEmp();
     }
 
