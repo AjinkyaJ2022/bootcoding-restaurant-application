@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.Statement;
 
 public class VendorDAO {
-    public static final String TABLE_NAME = "vendor";
+    public static final String TABLE_NAME = "app_vendor";
     public void createTable(){
         try {
             Class.forName("org.postgresql.Driver");

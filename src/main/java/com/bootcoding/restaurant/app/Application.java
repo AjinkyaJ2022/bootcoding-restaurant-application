@@ -5,40 +5,47 @@ import com.bootcoding.restaurant.model.Customer;
 import com.bootcoding.restaurant.model.Order;
 import com.bootcoding.restaurant.model.Vendor;
 import com.bootcoding.restaurant.service.CustomerService;
+import com.bootcoding.restaurant.utils.EmailUtils;
+import com.bootcoding.restaurant.utils.NamesUtils;
 import com.bootcoding.restaurant.utils.NumberGenerator;
 
+import javax.lang.model.element.Name;
 import java.util.Date;
 
 public class Application {
 
 
     public static void main(String[] args) {
-        CustomerDAO customerDAO = new CustomerDAO();
-        customerDAO.createTable();
-
-        NumberGenerator.getRandomNumber();
 
         CustomerService customerService=new CustomerService();
+
+        customerService.createTable();
         customerService.createDummyCustomers();
 
     }
 
+
+
+
+
+
+
     public void testData() {
-        Customer ramesh = new Customer();
-        ramesh.setName("Ramesh");
-        ramesh.setCity("Nagpur");
-        ramesh.setAddress("New Nandanwan, Nagpur");
-        ramesh.setState("Maharashtra");
-        ramesh.setEmailId("abc@gmail.com");
-        ramesh.setPhoneNumber(9090909090L);
+        Customer customer1 = new Customer();
+        customer1.setName(NamesUtils.getNames());
+        customer1.setCity("Nagpur");
+        customer1.setAddress("New Nandanwan, Nagpur");
+        customer1.setState("Maharashtra");
+        customer1.setEmailId(EmailUtils.getEmail(NamesUtils.getNames()));
+        customer1.setPhoneNumber(9090909090L);
 
         System.out.println(" Customer Details: ");
-        System.out.println("Name : " + ramesh.getName());
-        System.out.println("City : " + ramesh.getCity());
-        System.out.println("Address : " + ramesh.getAddress());
-        System.out.println("State : " + ramesh.getState());
-        System.out.println("Email Id : " + ramesh.getEmailId());
-        System.out.println("Phone : " + ramesh.getPhoneNumber());
+        System.out.println("Name : " + customer1.getName());
+        System.out.println("City : " + customer1.getCity());
+        System.out.println("Address : " + customer1.getAddress());
+        System.out.println("State : " + customer1.getState());
+        System.out.println("Email Id : " + customer1.getEmailId());
+        System.out.println("Phone : " + customer1.getPhoneNumber());
 
         Vendor haldiram = new Vendor();
         haldiram.setName("Haldiram Veg Restaurant");
@@ -59,7 +66,7 @@ public class Application {
         System.out.println("City : " + haldiram.getCity());
 
         Order order = new Order();
-        order.setCustomer(ramesh);
+        order.setCustomer(customer1);
         order.setVendor(haldiram);
         order.setTotalAmount(999.00);
         order.setOrderDate(new Date());
