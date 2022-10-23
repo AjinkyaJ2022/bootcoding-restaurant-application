@@ -1,7 +1,8 @@
 package com.bootcoding.restaurant.app;
 
-import com.bootcoding.restaurant.dao.CustomerDAO;
+import com.bootcoding.restaurant.dao.*;
 import com.bootcoding.restaurant.model.Customer;
+import com.bootcoding.restaurant.model.MenuItem;
 import com.bootcoding.restaurant.model.Order;
 import com.bootcoding.restaurant.model.Vendor;
 import com.bootcoding.restaurant.service.CustomerService;
@@ -21,6 +22,18 @@ public class Application {
 
         customerService.createTable();
         customerService.createDummyCustomers();
+
+//        VendorDAO vendorDAO=new VendorDAO();
+//        vendorDAO.createTable();
+
+//        MenuItemDAO menuItemDAO=new MenuItemDAO();
+//        menuItemDAO.createTable();
+
+//        OrderDAO orderDAO=new OrderDAO();
+//        orderDAO.createTable();
+
+//        OrderMenuItemDAO orderMenuItemDAO=new OrderMenuItemDAO();
+//        orderMenuItemDAO.createTable();
 
     }
 

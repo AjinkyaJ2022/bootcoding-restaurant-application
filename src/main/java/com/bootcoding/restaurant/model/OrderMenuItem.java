@@ -1,6 +1,16 @@
 package com.bootcoding.restaurant.model;
 
 public class OrderMenuItem {
+    private String orderMenuItemId;
+
+    public String getOrderMenuItemId() {
+        return orderMenuItemId;
+    }
+
+    public void setOrderMenuItemId(String orderMenuItemId) {
+        this.orderMenuItemId = orderMenuItemId;
+    }
+
     private String menuItem;
     private int quantity;
     private double price;

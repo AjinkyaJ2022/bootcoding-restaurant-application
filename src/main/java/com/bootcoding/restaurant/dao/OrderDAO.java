@@ -1,12 +1,12 @@
 package com.bootcoding.restaurant.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import com.bootcoding.restaurant.model.Order;
+
+import java.sql.*;
 
 public class OrderDAO {
-    public static final String TABLE_NAME="customer_order";
+    private DAOService daoService;
+    public static final String TABLE_NAME="app_order";
     public void createTable() {
         try {
             Class.forName("org.postgresql.Driver");
@@ -22,7 +22,7 @@ public class OrderDAO {
             queryBuilder.append(" delivery_address text, ");
             queryBuilder.append(" order_date timestamp, ");
             queryBuilder.append(" order_status text, ");
-            queryBuilder.append(" CONSTRAINT order_pkey PRIMARY KEY (id)) ");
+            queryBuilder.append(" CONSTRAINT app_order_pkey PRIMARY KEY (id)) ");
             System.out.println(queryBuilder.toString());
             stmt.executeUpdate(queryBuilder.toString());
         }
@@ -30,5 +30,24 @@ public class OrderDAO {
             e.printStackTrace();
         }
 
+        }
+        public void insertOrder(Order order){
+            try{
+                Connection con=daoService.getConnection();
+                Statement stmt=con.createStatement();
+                PreparedStatement ps = con.prepareStatement("INSERT INTO "+TABLE_NAME+" VALUES(?,?,?,?,?,?,?,?)");
+                ps.setLong(1,order.getOrderId());
+                ps.setDouble(2,order.getTotalAmount());
+                ps.setLong(3,order.getVendor().getVendorId());
+                ps.setLong(4,order.getCustomer().getCustomerId());
+                ps.setString(5,order.getDeliveryAddress());
+                ps.setTimestamp(6,new Timestamp(order.getOrderDate().getTime()));
+                ps.setString(7,order.getOrderStatus());
+                ps.executeUpdate();
+                con.close();
+
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
 }

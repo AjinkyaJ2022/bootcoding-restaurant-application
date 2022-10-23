@@ -38,7 +38,7 @@ public class CustomerDAO {
             queryBuilder.append(" state text, ");
             queryBuilder.append(" email_id text, ");
             queryBuilder.append("created_At timestamp, ");
-            queryBuilder.append(" CONSTRAINT customer_pkey PRIMARY KEY (id)) ");
+            queryBuilder.append(" CONSTRAINT app_customer_pkey PRIMARY KEY (id)) ");
             System.out.println(queryBuilder.toString());
             stmt.executeUpdate(queryBuilder.toString());
             con.close();
@@ -48,23 +48,29 @@ public class CustomerDAO {
         }
     }
     public void insertCustomer(Customer customer){
-        try{
-           Connection con=daoService.getConnection();
-           Statement stmt=con.createStatement();
-            PreparedStatement ps = con.prepareStatement("INSERT INTO "+TABLE_NAME+" VALUES(?,?,?,?,?,?,?,?)");
-            ps.setLong(1,customer.getCustomerId());
-            ps.setString(2,customer.getName());
-            ps.setString(3,customer.getAddress());
-            ps.setLong(4,customer.getPhoneNumber());
-            ps.setString(5,customer.getCity());
-            ps.setString(6,customer.getState());
-            ps.setString(7,customer.getEmailId());
-            ps.setTimestamp(8,new Timestamp(customer.getCreatedAt().getTime()));
-            ps.executeUpdate();
-            con.close();
+        try {
+            Connection con = daoService.getConnection();
+            if (!daoService.exists(con, TABLE_NAME, customer.getCustomerId())) {
+                Statement stmt = con.createStatement();
+                PreparedStatement ps = con.prepareStatement("INSERT INTO " + TABLE_NAME + " VALUES(?,?,?,?,?,?,?,?)");
+                ps.setLong(1, customer.getCustomerId());
+                ps.setString(2, customer.getName());
+                ps.setString(3, customer.getAddress());
+                ps.setLong(4, customer.getPhoneNumber());
+                ps.setString(5, customer.getCity());
+                ps.setString(6, customer.getState());
+                ps.setString(7, customer.getEmailId());
+                ps.setTimestamp(8, new Timestamp(customer.getCreatedAt().getTime()));
+                ps.executeUpdate();
+                System.out.println(customer.getCustomerId() + " inserted into DB!");
+            }else{
+                System.out.println(customer.getCustomerId() + " already exists!");
+            }
+                con.close();
 
-        }catch (Exception e){
-            e.printStackTrace();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
-    }
+
 }
