@@ -1,11 +1,15 @@
 package com.bootcoding.restaurant.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
+import com.bootcoding.restaurant.model.Vendor;
+
+import java.sql.*;
 
 public class VendorDAO {
+    private DAOService daoService;
     public static final String TABLE_NAME = "app_vendor";
+    public VendorDAO(){
+        daoService=new DAOService();
+    }
     public void createTable(){
         try {
             Class.forName("org.postgresql.Driver");
@@ -21,10 +25,10 @@ public class VendorDAO {
             queryBuilder.append(" email_id text, ");
             queryBuilder.append(" city text, ");
             queryBuilder.append(" state text, ");
-            queryBuilder.append("pure veg int8, ");
+            queryBuilder.append("pure_veg bool, ");
             queryBuilder.append("category text, ");
             queryBuilder.append("rating int8, ");
-            queryBuilder.append(" CONSTRAINT order_pkey PRIMARY KEY (id)) ");
+            queryBuilder.append(" CONSTRAINT app_vendor_pkey PRIMARY KEY (id)) ");
             System.out.println(queryBuilder.toString());
             stmt.executeUpdate(queryBuilder.toString());
         }
@@ -32,4 +36,33 @@ public class VendorDAO {
             e.printStackTrace();
         }
         }
+        public void insertVendor(Vendor vendor){
+        try {
+            Connection con = daoService.getConnection();
+            if (!daoService.exists(con, TABLE_NAME, vendor.getVendorId())) {
+            Statement stmt = con.createStatement();
+            PreparedStatement ps = con.prepareStatement("INSERT INTO " + TABLE_NAME + " VALUES(?,?,?,?,?,?,?,?)");
+            ps.setLong(1, vendor.getVendorId());
+            ps.setString(2, vendor.getName());
+            ps.setString(3, vendor.getAddress());
+            ps.setLong(4, vendor.getPhoneNumber());
+            ps.setString(5, vendor.getEmailId());
+            ps.setString(6, vendor.getCity());
+            ps.setString(7, vendor.getState());
+            ps.setString(8, vendor.getCategory());
+            ps.setDouble(9, vendor.getRating());
+            //ps.setTimestamp(10, new Timestamp(vendor.getCreateAt().getTime()));
+            ps.executeUpdate();
+                System.out.println(vendor.getVendorId() + " inserted into DB!");
+            }else{
+                System.out.println(vendor.getVendorId() + " already exists!");
+            }
+            con.close();
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        }
+
 }

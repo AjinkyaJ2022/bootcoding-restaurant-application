@@ -1,8 +1,8 @@
 package com.bootcoding.restaurant.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
+import com.bootcoding.restaurant.model.MenuItem;
+
+import java.sql.*;
 
 public class MenuItemDAO {
 
@@ -30,4 +30,30 @@ public class MenuItemDAO {
             e.printStackTrace();
         }
     }
+    public void insertMenuItem(MenuItem menuItem){
+        try{
+            Connection con = daoService.getConnection();
+            if (!daoService.exists(con, TABLE_NAME, menuItem.getMenuItemId())) {
+                Statement stmt = con.createStatement();
+                PreparedStatement ps = con.prepareStatement("INSERT INTO " + TABLE_NAME + " VALUES(?,?,?,?,?,?,?,?)");
+                ps.setLong(1, menuItem.getMenuItemId());
+                ps.setString(2, menuItem.getMenuItem());
+                ps.setDouble(3, menuItem.getPrice());
+                ps.setString(4, menuItem.getCategory());
+                //ps.setString(5, menuItem.get));
+                //ps.setTimestamp(6, new Timestamp(menuItem.getCreatedAt().getTime()));
+                ps.executeUpdate();
+                System.out.println(menuItem.getMenuItemId() + " inserted into DB!");
+            }else{
+                System.out.println(menuItem.getMenuItemId() + " already exists!");
+            }
+            con.close();
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
 }
+    //}
+//}
